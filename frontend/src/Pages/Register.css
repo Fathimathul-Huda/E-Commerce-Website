@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+.register-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fde8f1, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.register-card {
+  background: #ffffff;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 22px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.brand-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #c2185b;
+  margin-bottom: 6px;
+}
+
+.register-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 22px;
+}
+
+.register-error {
+  color: #e53935;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.register-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+.register-link {
+  color: #d63384;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+
+.register-card input:focus {
+  outline: none;
+  border-color: #d63384;
+}
+
+.register-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #d63384, #ff6aa2);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.register-card button:hover {
+  opacity: 0.95;
+}
+
+.register-footer {
+  font-size: 13px;
+  margin-top: 20px;
+  color: #666;
+}
+
+.register-footer a {
+  color: #d63384;
+  font-weight: 600;
+  text-decoration: none;
+}
