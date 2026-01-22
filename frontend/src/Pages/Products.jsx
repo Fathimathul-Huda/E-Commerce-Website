@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import { WishlistContext } from "../Context/WishlistContext";
 
@@ -84,6 +84,26 @@ export default function Products() {
   const { addToWishlist, removeFromWishlist, isInWishlist } =
     useContext(WishlistContext);
 
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    // Load static products
+    let products = [...staticProducts];
+    
+    // Load admin-added products from localStorage
+    const adminProducts = JSON.parse(localStorage.getItem("products")) || [];
+    
+    // Combine both with image
+    const combinedProducts = products.concat(
+      adminProducts.map(p => ({
+        ...p,
+        image: p.image || p1, // Use uploaded image if available, otherwise default
+      }))
+    );
+    
+    setAllProducts(combinedProducts);
+  }, []);
+
   const categoryParam = searchParams.get("category");
   const brandParam = searchParams.get("brand");
 
@@ -101,7 +121,7 @@ export default function Products() {
     ? normalize(decodeURIComponent(brandParam))
     : null;
 
-  const filteredProducts = staticProducts.filter((p) => {
+  const filteredProducts = allProducts.filter((p) => {
     const categoryMatch = category
       ? normalize(p.category) === category
       : true;
@@ -127,15 +147,21 @@ export default function Products() {
           justifyItems: "center",
         }}
       >
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            addToWishlist={addToWishlist}
-            removeFromWishlist={removeFromWishlist}
-            isInWishlist={isInWishlist}
-          />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              addToWishlist={addToWishlist}
+              removeFromWishlist={removeFromWishlist}
+              isInWishlist={isInWishlist}
+            />
+          ))
+        ) : (
+          <p style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "#666" }}>
+            No products found
+          </p>
+        )}
       </div>
     </div>
   );

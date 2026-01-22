@@ -19,7 +19,6 @@ export default function App() {
   return (
     <>
       <Navbar />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -34,9 +33,9 @@ export default function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/address" element={<Address/>}></Route>
-        <Route path="/order" element={<Order/>}></Route>
-
+        <Route path="/address" element={<Address />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/orders" element={<Order />} />
       </Routes>
     </>
   );

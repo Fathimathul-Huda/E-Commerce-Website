@@ -41,23 +41,20 @@ export default function Checkout() {
       return;
     }
 
-    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
-
     const newOrder = {
       id: Date.now(),
       userEmail: user.email,
       items: cartItems,
       total: totalAmount,
       address,
-      status: "Placed",
+      status: "Pending",
       date: new Date().toLocaleDateString(),
     };
 
-    allOrders.push(newOrder);
-    localStorage.setItem("orders", JSON.stringify(allOrders));
+    // Save order temporarily to sessionStorage for payment page
+    sessionStorage.setItem("pendingOrder", JSON.stringify(newOrder));
 
-    clearCart();
-    navigate("/orders");
+    navigate("/payment");
   };
 
   return (

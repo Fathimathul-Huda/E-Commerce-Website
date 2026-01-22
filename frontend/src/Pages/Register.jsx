@@ -35,7 +35,11 @@ export default function Register() {
     }
 
     // Buyer/User role by default
-    login({ email, role: "user" });
+    login({
+      name: email.split("@")[0],
+      email: email,
+      role: "user"
+    });
 
     navigate("/");
   };

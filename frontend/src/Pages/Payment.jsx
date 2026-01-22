@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
 import "./Payment.css";
 
 export default function Payment() {
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+  const [pendingOrder, setPendingOrder] = useState(null);
 
   const [method, setMethod] = useState("upi");
   const [upiId, setUpiId] = useState("");
@@ -16,10 +17,17 @@ export default function Payment() {
     cvv: "",
   });
 
-  const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
+  useEffect(() => {
+    // Get the pending order from checkout
+    const order = sessionStorage.getItem("pendingOrder");
+    if (order) {
+      setPendingOrder(JSON.parse(order));
+    }
+  }, []);
+
+  const totalAmount = pendingOrder
+    ? pendingOrder.total
+    : cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const handlePay = () => {
     if (method === "upi" && !upiId) {
@@ -35,8 +43,23 @@ export default function Payment() {
       return;
     }
 
+    // Save the order to localStorage
+    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    
+    if (pendingOrder) {
+      pendingOrder.status = "Confirmed";
+      pendingOrder.paymentMethod = method;
+      allOrders.push(pendingOrder);
+    }
+    
+    localStorage.setItem("orders", JSON.stringify(allOrders));
+    
+    // Clear the pending order and cart
+    sessionStorage.removeItem("pendingOrder");
+    clearCart();
+
     alert("Payment Successful 🎉");
-    navigate("/");
+    navigate("/orders");
   };
 
   return (

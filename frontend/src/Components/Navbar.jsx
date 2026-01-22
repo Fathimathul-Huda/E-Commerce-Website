@@ -110,11 +110,23 @@ export default function Navbar() {
                 <div className="profile-dropdown">
                   <p className="profile-name">{user.name}</p>
                   <p className="profile-email">{user.email}</p>
+                  <p className="profile-role" style={{ fontSize: "12px", color: "#666", marginTop: "5px" }}>
+                    {user.role === "admin" ? "👑 Admin" : user.role === "seller" ? "🏪 Seller" : "🛍️ Buyer"}
+                  </p>
                   <hr />
 
-                   <Link to="/orders">My Orders</Link>
+                  {user.role === "admin" && (
+                    <>
+                      <Link to="/admin" style={{ color: "#d4af37", fontWeight: "bold" }}>
+                        ⚙️ Admin Dashboard
+                      </Link>
+                      <hr />
+                    </>
+                  )}
+
+                  <Link to="/orders">My Orders</Link>
                   <Link to="/wishlist">Wishlist</Link>
-                   <Link to="/address">Saved Addresses</Link>
+                  <Link to="/address">Saved Addresses</Link>
                   <Link to="/payment">Payment Methods</Link>
                   <Link to="/profile">Edit Profile</Link>
 

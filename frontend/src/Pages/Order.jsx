@@ -6,7 +6,10 @@ export default function Orders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setOrders([]);
+      return;
+    }
 
     const allOrders =
       JSON.parse(localStorage.getItem("orders")) || [];

@@ -28,13 +28,32 @@ export default function Login() {
       return;
     }
 
-    // ✅ IMPORTANT FIX: ALWAYS send OBJECT
+    // Check if admin login
+    let role = "user";
+    if (email === "admin@admin.com" && password === "admin123") {
+      role = "admin";
+    }
+
+    // Store user in localStorage for tracking
+    const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const existingUser = allUsers.find(u => u.email === email);
+    if (!existingUser) {
+      allUsers.push({ name: email.split("@")[0], email, role });
+      localStorage.setItem("users", JSON.stringify(allUsers));
+    }
+
+    // ✅ IMPORTANT: Always send OBJECT with role
     login({
-      name: email.split("@")[0], // temporary name
+      name: email.split("@")[0],
       email: email,
+      role: role,
     });
 
-    navigate("/");
+    if (role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -62,6 +81,7 @@ export default function Login() {
 
           <button type="submit">Login</button>
         </form>
+
 
         <p className="login-footer">
           New to Glow Beauty?{" "}
